@@ -1,9 +1,8 @@
 import os
+from dotenv import load_dotenv
 import requests
 from openai import OpenAI
-
-OPENAI_API_KEY = "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"
-GOOGLE_MAPS_API_KEY="AIzaSyCwvhitOi_-oZFKCNv3gjeBAYA8aGRsxgQ"
+load_dotenv()
 
 #Functional Requirements:
 # Will be using prompt engineering to guide the agent's behavior.
@@ -83,13 +82,12 @@ state = {
 
 # Create OpenAI Client
 def get_client():
-    OPENAI_API_KEY = "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"
-
+    OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
     return OpenAI(api_key=OPENAI_API_KEY)
 
 # Validate Address Using Google Maps Geocoding API
 def validate_address(street, city, state, zip_code):
-    GOOGLE_MAPS_API_KEY="AIzaSyCwvhitOi_-oZFKCNv3gjeBAYA8aGRsxgQ"
+    GOOGLE_MAPS_API_KEY = os.getenv("GOOGLE_MAPS_API_KEY")
     api_key = os.getenv(GOOGLE_MAPS_API_KEY)
 
     address = f"{street}, {city}, {state} {zip_code}"
