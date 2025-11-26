@@ -1,47 +1,14 @@
 # AssortHealthChatAgentProject
 Built an assort Health chat agent to take in patients information and set up a meeting with them
-🏥 Patient Intake Chatbot
 
 A patient-intake chatbot using OpenAI GPT-4o-mini and Google Maps API that simulates a healthcare clinic assistant. It collects patient information, validates addresses, helps users select an appointment, and provides a friendly confirmation summary.
 
-🚀 Features
+Write up with step-by-step process/explanation:
+https://docs.google.com/document/d/1jXpu1aj14IoQ4jfd5oKYDf6PanKbVRH4gWw2dwqruig/edit?usp=sharing
 
-Step-by-step intake
+Submission Video:
+https://drive.google.com/file/d/1Q_J89gDHK3lQmpE703NxEzs-geOP4d76/view?usp=sharing
 
-Collect patient information: full name, DOB, address
-
-Collect insurance information: company and ID
-
-Collect medical information: reason for visit
-
-Validate address using Google Maps API
-
-Present appointment options and confirm selection
-
-Generate a user-friendly summary including assigned physician
-
-Interaction rules
-
-Ask one question at a time
-
-Follow the required information order
-
-Skip optional fields if user does not provide them
-
-Be friendly and welcoming
-
-Do not provide medical advice
-
-Final Summary
-
-✅ Patient Intake Complete! Here’s a summary of your information:
-
-- Full Name: Rahul Kolli
-- Date of Birth: 06/03/2001
-- Address: 3250 Patina Ct, San Jose, California, 95135
-- Insurance: American Insurance (12345)
-- Reason for Visit: Stomach ache
-- Selected Appointment Time: 2:00 PM Wednesday
-- Assigned Physician: Dr. Smith
-
-Your appointment is confirmed. Have a nice day! 😊
+Instructions to run the agent:
+- Need to run the AssortHealthAgent.py file
+- Also must create a .env file with two API keys: OPENAI_API_KEY and GOOGLE_MAPS_API_KEY
