@@ -1,0 +1,19 @@
+[project]
+name = "assort-health-takehome"
+version = "0.1.0"
+description = "Assort Health AI Chat Agent Take Home Assignment"
+authors = [
+    {name = "Your Name", email = "your.email@example.com"}
+]
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "openai>=2.3.0",
+]
+
+[tool.poetry]
+package-mode = false
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
