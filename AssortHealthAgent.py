@@ -20,7 +20,6 @@ GOOGLE_MAPS_API_KEY="AIzaSyCwvhitOi_-oZFKCNv3gjeBAYA8aGRsxgQ"
 #   - assgined phsyician
 #   - All collected information
 
-#Example
 SYSTEM_PROMPT = """
 You are a patient-intake assistant for a healthcare clinic.
 
@@ -69,6 +68,7 @@ Begin the conversation with this welcome message:
 "Hi there! I'm here to help with your check-in today. I'll ask you a few quick questions so we can get your information to the care team. Let's get started — what's your full name?"
 """
 
+# STATE (Conversation Memory)
 state = {
     "step": "NAME",
     "full_name": None,
@@ -81,12 +81,13 @@ state = {
     "assigned_physician": "Dr. Smith"
 }
 
-
+# Create OpenAI Client
 def get_client():
     OPENAI_API_KEY = "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"
 
     return OpenAI(api_key=OPENAI_API_KEY)
 
+# Validate Address Using Google Maps Geocoding API
 def validate_address(street, city, state, zip_code):
     GOOGLE_MAPS_API_KEY="AIzaSyCwvhitOi_-oZFKCNv3gjeBAYA8aGRsxgQ"
     api_key = os.getenv(GOOGLE_MAPS_API_KEY)
@@ -111,6 +112,7 @@ def validate_address(street, city, state, zip_code):
 
     return True, {"formatted_address": formatted_address, "lat": location["lat"], "lng": location["lng"]}
 
+# Validate Appointment Choice
 def get_appointment_choice(user_input, available_slots):
     """
     Check if user_input is a valid numbered selection from available_slots.
@@ -125,10 +127,11 @@ def get_appointment_choice(user_input, available_slots):
     except ValueError:
         return False, None
 
+# Chat Logic (Main Function)
 def chat(message, history, state):
     client = get_client()
 
-    # Check if current step is ADDRESS and validate
+    # ADDRESS STEP — Validate the user's entry
     if state["step"] == "ADDRESS":
         # You can split message into street, city, state, zip or assume comma-separated
         parts = [p.strip() for p in message.split(",")]
@@ -146,9 +149,10 @@ def chat(message, history, state):
         state["step"] = "INSURANCE"
         return "Next, what is your insurance company name?", history
     
+    # Hard-coded these available slots but can adjust if needed
     available_slots = ["10:00 AM Monday", "11:30 AM Tuesday", "2:00 PM Wednesday"]
 
-    # Handle appointment step separately
+    # APPOINTMENT STEP — Validate selection
     if state["step"] == "APPOINTMENT":
         valid, slot = get_appointment_choice(message, available_slots)
         if valid:
@@ -188,11 +192,12 @@ def chat(message, history, state):
             return f"Sorry, that is not a valid choice. Please select a number from 1 to {len(available_slots)}.", history
 
 
-    # Otherwise, continue normal LLM response
+    # All other steps handled by LLM
     messages = [{"role": "system", "content": SYSTEM_PROMPT}]
     messages += history
     messages.append({"role": "user", "content": message})
 
+    #Error logging if client fails to connect
     try:
         response = client.chat.completions.create(
             model="gpt-4o-mini",
@@ -209,6 +214,7 @@ def chat(message, history, state):
 
     return bot_message, history
 
+# Console Application Entry Point
 if __name__ == "__main__":
     history = []
     state = {"step": "NAME", "full_name": None, "date_of_birth": None,
